@@ -1,11 +1,10 @@
-// models/blog.js
-// Defines the shape of a blog document in MongoDB.
-// Mongoose uses this schema to validate and structure data.
-
 const mongoose = require('mongoose')
 
 const blogSchema = mongoose.Schema({
-  title: String,
+  title: {
+    type: String,
+    index: true,
+  },
   author: String,
   url: String,
   likes: Number,
@@ -15,8 +14,6 @@ const blogSchema = mongoose.Schema({
   },
 })
 
-// Optional: clean up the JSON output
-// This removes the internal __v field and renames _id to id
 blogSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
@@ -25,8 +22,6 @@ blogSchema.set('toJSON', {
   },
 })
 
-// mongoose.model() compiles the schema into a Model
-// The first argument 'Blog' becomes the collection name 'blogs' in MongoDB
 const Blog = mongoose.model('Blog', blogSchema)
 
 module.exports = Blog
